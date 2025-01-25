@@ -30,11 +30,14 @@ def engineer_features(df):
     numeric_columns = df_cleaned.select_dtypes(include=[np.number]).columns
     scaled_features = scaler.fit_transform(df_cleaned[numeric_columns])
     df_cleaned[numeric_columns] = scaled_features
-    actual_feature_column = 'score' #Replace with your actual column name
+
+    # Check if 'score' (or the correct column name) exists
+    actual_feature_column = 'score' # Replace with correct column name if different
     if actual_feature_column in df_cleaned.columns:
         df_cleaned['feature_squared'] = df_cleaned[actual_feature_column] ** 2
     else:
-        st.error(f"Error: Column '{actual_feature_column}' not found!")
+        st.warning(f"Column '{actual_feature_column}' not found. Skipping feature engineering for this column.")  #Improved error handling
+        #You could also add alternative feature engineering here if needed.
     return df_cleaned
 
 
